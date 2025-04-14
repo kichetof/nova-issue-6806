@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Auth\PasswordValidationRules;
+use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -69,6 +70,18 @@ class User extends Resource
                 ->required()
                 ->showCreateRelationButton()
                 ->withPreview(),
+
+            BooleanGroup::make('Permissions')
+                ->options([
+                    'create' => 'Create',
+                    'read' => 'Read',
+                    'update' => 'Update',
+                    'delete' => 'Delete',
+                ])
+                // Toggle it --> doesn't work
+                //->hideTrueValues()
+                // Toggle it --> doesn't work
+                ->hideFalseValues(),
         ];
     }
 
