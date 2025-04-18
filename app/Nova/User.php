@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Lenses\UserLens;
 use Illuminate\Http\Request;
 use Laravel\Nova\Auth\PasswordValidationRules;
 use Laravel\Nova\Fields\BooleanGroup;
@@ -65,12 +66,13 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules($this->passwordRules())
                 ->updateRules($this->optionalPasswordRules()),
-
+            /*
+            // Error on Lens view when sorting
             Tag::make('Tags')
                 ->required()
                 ->showCreateRelationButton()
                 ->withPreview(),
-
+            */
             BooleanGroup::make('Permissions')
                 ->options([
                     'create' => 'Create',
@@ -78,9 +80,6 @@ class User extends Resource
                     'update' => 'Update',
                     'delete' => 'Delete',
                 ])
-                // Toggle it --> doesn't work
-                //->hideTrueValues()
-                // Toggle it --> doesn't work
                 ->hideFalseValues(),
         ];
     }
@@ -112,7 +111,9 @@ class User extends Resource
      */
     public function lenses(NovaRequest $request): array
     {
-        return [];
+        return [
+            UserLens::make(),
+        ];
     }
 
     /**
